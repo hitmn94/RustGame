@@ -31,6 +31,12 @@ struct BossMonster {
     weaponDMG: i32,
 }
 
+impl BossMonster {
+    fn bigDamage(&self) -> i32 {
+        rand::thread_rng().gen_range(30,51)
+    }
+}
+
 struct Town {
     name: String,
 }
@@ -38,7 +44,6 @@ struct Town {
 fn main() {
     // Set up Hero and game base
     let mut usrInput = String::new();
-    let mut count: i8 = 0;
 
     println!("Welcome to Prevail");
     println!("Please enter your character's name: ");
@@ -90,7 +95,7 @@ fn main() {
 
     while usrInput != 0.to_string() {
         //Forest loop
-        while count <= 20 {
+        for mut number in 0..21 {
             println!("1. Explore forest\n\
                   2. Rest\n
                   0. Quit");
@@ -104,26 +109,25 @@ fn main() {
 
 
             match usrInput {
-                1 => exploreForest(count, hero.borrow_mut()),
+                1 => exploreForest(number, hero.borrow_mut()),
                 2 => rest(hero.borrow_mut()),
-                0 => count = 40,
+                0 => break,
                 _ => continue
             }
 
             //After 20 rounds through the forest, the mountain range comes into view and your journey continues
-            if count >= 20 {
+            if number >= 20 {
                 println!("You have found your way out of the forest. Continue onwards to the Drake Mountain range to find the temple.");
                 break;
             } else if hero.health < 0 {
                 break;
             } else {
-                count += 1;
+                continue;
             }
         };
 
         //Mountain loop
-        count = 0;
-        while count <= 30 {
+        for mut number in 0..31 {
             println!("1. Explore mountains\n\
                   2. Rest\n
                   0. Quit");
@@ -136,27 +140,26 @@ fn main() {
             };
 
             match usrInput {
-                1 => exploreMountain(count, hero.borrow_mut()),
+                1 => exploreMountain(number, hero.borrow_mut()),
                 2 => rest(hero.borrow_mut()),
-                0 => count = 40,
+                0 => break,
                 _ => continue
             }
 
             //After 30 rounds through the mountain range, the temple finally comes into view. Here is your final challenge
-            if count >= 30 {
+            if number >= 30 {
                 println!("You have found your way out of the mountain range.\n\
                       Your final battles await you. Good luck.");
                 break;
             } else if hero.health < 0 {
                 break;
             } else {
-                count += 1;
+                continue;
             }
         };
 
         //Temple loop
-        count = 0;
-        while count <= 5 {
+        for mut number in 0..6 {
             println!("1. Explore Temple\n\
                   2. Rest\n
                   0. Quit");
@@ -169,20 +172,20 @@ fn main() {
             };
 
             match usrInput {
-                1 => exploreTemple(count, hero.borrow_mut()),
+                1 => exploreTemple(number, hero.borrow_mut()),
                 2 => rest(hero.borrow_mut()),
-                0 => count = 40,
+                0 => break,
                 _ => continue
             }
 
             //After 5 rounds through the Temple, you enter Ba'zzel's court
-            if count >= 5 {
+            if number >= 5 {
                 println!("You have found Ba'zzel. Defeat him to save the land.");
                 break;
             } else if hero.health < 0 {
                 break;
             } else {
-                count += 1;
+                continue;
             }
         };
 
